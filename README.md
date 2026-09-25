@@ -40,6 +40,7 @@ Students earn verified points, level up, unlock GPU credits and compete on a liv
 - [📜 Scripts](#-scripts)
 - [📱 Mobile (Capacitor)](#-mobile-capacitor)
 - [🔄 Over-the-Air Updates](#-over-the-air-updates)
+- [🐳 Docker Deployment](#-docker-deployment)
 - [🔐 Security](#-security)
 - [👨‍💻 Developed By](#-developed-by)
 
@@ -63,18 +64,12 @@ Every certificate, GitHub project, DOI paper and hackathon win is **reviewed by 
 </td>
 <td width="33%" valign="top">
 
-### 🖥️ GPU Credit Economy
-Students request **NVIDIA DGX GPU time**, mentors recommend and admins allocate. Industry partners can request compute too.
+### 🏆 Live Hackathon Feed
+Hackathons from **Devpost, Unstop and Devfolio** sync automatically. Students register with their team and submit participation or winner proof for points.
 
 </td>
 </tr>
 <tr>
-<td valign="top">
-
-### 🛡️ Proctored Assessments
-Live proctored course tasks detect **fullscreen exit, tab switch and window blur**. The fourth violation locks the session until a mentor grants access.
-
-</td>
 <td valign="top">
 
 ### 🏭 Industry Problem Bank
@@ -85,6 +80,12 @@ Real problems from partner organisations, solved through a **6-stage faculty-gat
 
 ### 🚀 Startup Launchpad
 Take an AI idea from pitch to **prototype, GPU validation, MVP, industry pilot and funding**, with a mentor review at every stage.
+
+</td>
+<td valign="top">
+
+### 📊 Analytics & Reports
+Live dashboards for students, mentors and admins: points over time, level distribution, claims by category, department breakdown and top students.
 
 </td>
 </tr>
@@ -119,11 +120,9 @@ Take an AI idea from pitch to **prototype, GPU validation, MVP, industry pilot a
 
 | | Role | Portal | What they do |
 | :-: | --- | --- | --- |
-| 🎓 | **Student** | Light "passport" app shell | Attend classes, take courses, submit claims, solve industry problems, build startups, request GPU time, climb the leaderboard |
-| 🧑‍🏫 | **Mentor (Faculty)** | Dark operations console | Verify claims and course submissions, review problem/startup stages, run CoE classes, log teaching, unlock proctoring, track students |
-| 🛠️ | **Admin** | Dark operations console | Manage users and whitelist, courses, classes, problems, scoring, GPU allocation, industry requests, awards, reports and audits |
-| ⚖️ | **Evaluator / Jury** | Evaluator panel | Score hackathon submissions (innovation, technical, impact, presentation, completeness) |
-| 🏢 | **Industry Partner** | *(data model ready)* | Company profile linked to problems and GPU requests |
+| 🎓 | **Student** | Light "passport" app shell | Attend CoE classes and scan QR, take courses, submit claims, solve industry problems, build startups, join hackathons, request awards, climb the leaderboard |
+| 🧑‍🏫 | **Mentor (Faculty)** | Dark operations console | Verify claims and course submissions, review problem and startup stages, run CoE classes with live QR, keep teaching logs, track student progress |
+| 🛠️ | **Admin** | Dark operations console | Manage the access whitelist, courses, classes, problems, scoring and levels, industry GPU requests, awards and reports |
 
 ---
 
@@ -135,20 +134,17 @@ Take an AI idea from pitch to **prototype, GPU validation, MVP, industry pilot a
 
 | Module | Features |
 | --- | --- |
-| 🏠 **Dashboard** | Nine-grid activity hub, points and level progress ring, next-level target, rank, recent activity and charts |
-| 🏫 **CoE Classes** | Year-scoped class schedule (only your year's classes appear), live-now badges, upcoming and past sessions |
-| 📷 **QR Scan** | Native ML Kit scanner on Android/iOS, `getUserMedia` + jsQR in the browser, and manual code entry everywhere |
-| 📚 **Courses** | Catalog from NVIDIA DLI, Coursera, NPTEL and Udemy with difficulty, skills, outcomes and prerequisites; enrol, complete tasks, upload proof and get mentor approval for points |
-| 🛡️ **Proctored Tasks** | Fullscreen live assessments with violation tracking; the session locks after 4 violations |
-| 📝 **Claims** | Submit achievements with a PDF, GitHub link or DOI; track pending, approved and rejected status with mentor feedback |
+| 🏠 **Overview & Analytics** | Points and level progress, next-level target, rank, recent activity and charts |
+| 🏫 **CoE Classes** | Year-scoped class schedule (only your year's classes appear), live-now, upcoming and past sessions |
+| 📷 **QR Check-in** | Scan the live class QR: native ML Kit scanner on Android/iOS, camera + jsQR in the browser, or manual code entry |
+| 📚 **Courses & Curricula** | Catalog from NVIDIA DLI, Coursera, NPTEL and Udemy with difficulty, duration, skills, outcomes and prerequisites; submit a completion proof and earn points once a mentor approves |
+| 📝 **Evidence & Claims** | Claim points for certifications, projects, hackathon wins and research papers or patents, with a file, GitHub link or DOI; track pending, approved and rejected status with mentor feedback |
 | 🏭 **Industry Problems** | Browse problems from partner organisations and solve them through 6 gated stages: Analysis → Approach → Prototype → Testing → Demo → Delivery |
 | 🚀 **Startup Launchpad** | 6-stage venture pipeline with stage-specific forms (pitch, prototype, GPU validation, MVP, pilot, funding) |
-| 🖥️ **GPU Labs & Requests** | Request DGX GPU credits with a justification, and follow the flow draft → mentor-recommended → approved → allocated → completed |
-| 🏆 **Hackathons** | Live feed of **Devpost, Unstop and Devfolio** hackathons (auto-synced), team registration, participation or winner proof, and in-house hackathons with teams and submissions |
-| 📖 **Research & Certifications** | Record papers, patents and certifications |
+| 🏆 **Hackathons** | Auto-synced feed from **Devpost, Unstop and Devfolio**; register with team members, then submit participation or winner proof |
+| 🎖️ **Awards** | Request annual awards (AI Student of the Year, Best AI Startup, …) and track the decision |
 | 🥇 **Leaderboard** | Redis-backed live ranking with cohort KPIs, falling back to PostgreSQL |
-| 🎖️ **Awards** | Request or nominate for annual awards (AI Student of the Year, Best AI Startup, …) |
-| 🔔 **Notifications & Profile** | Approval and rejection alerts, level-ups, digital passport profile |
+| 🧪 **Labs · Sessions · Certifications · Research** | Guide pages for each activity type with its points value and a shortcut to submit evidence |
 
 </details>
 
@@ -156,14 +152,15 @@ Take an AI idea from pitch to **prototype, GPU validation, MVP, industry pilot a
 <summary><b>🧑‍🏫 Mentor (Faculty) Portal</b></summary>
 <br/>
 
-- **Verification Queue**: shared-pool, paginated and filterable review of claims with an evidence viewer
-- **Course Reviews**: approve or reject submissions, full CRUD on the course catalog, and **grant access** to locked proctoring sessions
-- **CoE Classes**: create classes, activate the live rotating QR, co-teach with other faculty, and keep **teaching logs** (topics covered, materials, notes)
-- **Industry Problems & Startups**: review stage submissions; approval unlocks the next stage
-- **Hackathons**: verify registration and result proofs
-- **Students**: per-student progress drill-down with the points timeline, claims, courses and projects
-- **Awards & Leaderboard**: nominate students and view rankings
-- **Department routing**: each mentor can own a department's notifications
+- **Dashboard**: pending work and activity charts at a glance
+- **Verification Queue**: paginated, filterable review of claims with an evidence viewer; approving a claim awards the points and notifies the student
+- **Course Submissions**: approve or reject course completion proofs with feedback
+- **Courses & Curricula**: create, edit, publish and archive courses in the catalog
+- **CoE Classes**: schedule classes, run the live rotating QR, view attendance, and keep **teaching logs** (topics covered, materials, notes, co-mentors)
+- **Industry Problems & Problem Solutions**: manage the problem bank and review each student's stage submissions; approval unlocks the next stage
+- **Startup Launchpad**: review venture stage submissions
+- **Hackathons**: see the synced hackathon feed and student registrations
+- **Awards · Student Progress · Leaderboard**: review award requests, drill into any student's points timeline, claims, courses and projects, and view rankings
 
 </details>
 
@@ -173,21 +170,22 @@ Take an AI idea from pitch to **prototype, GPU validation, MVP, industry pilot a
 
 | Area | Capabilities |
 | --- | --- |
-| 📊 **Dashboard & Reports** | Centre-wide KPIs, charts of points awarded over time, CSV/Excel export |
-| 👤 **User Management** | Email access whitelist (manual or bulk Excel import), role assignment, points and GPU-credit corrections, high-impact flag |
-| 🎓 **Students** | Cohort-wide progress by department, year and level, with drill-down |
-| 🏫 **Events & CoE Classes** | Schedule classes by year, department and session, run live QR sessions, view attendance |
+| 📊 **Dashboard** | Centre-wide KPIs and charts |
+| 📈 **Reports & Analytics** | Points awarded over time, competency level distribution, claims by category and status, department breakdown, top students |
+| 👤 **User Management** | Email access whitelist: add manually or bulk-import from Excel, set role, department and year, authorise or revoke access |
+| 🎓 **Student Progress** | Cohort-wide progress by department, year and level, with per-student drill-down |
+| 🏫 **CoE Classes** | Schedule classes by year, department and session, run live QR sessions, view attendance |
 | 📘 **Faculty Teaching Logs** | Read every teaching log across departments and mentors |
-| 📚 **Courses** | Full catalog management with tasks (standard / live-proctored) |
-| 🏭 **Problem Bank** | Create, publish and archive problems with attached PDF, Excel or Word briefs; track every solution project |
-| 🖥️ **GPU Allocation** | Approve and allocate student GPU requests |
-| 🏢 **Industry GPU Requests** | Track company compute requests: New → Under Review → Approved → Fulfilled |
-| 🚀 **Startups · Hackathons · Research** | Oversight of every venture, hackathon and publication |
-| ⚙️ **Scoring & Levels** | Configure the points matrix and level thresholds (stored as data, not hard-coded) |
-| 🏅 **Awards & Annual Audit** | Run the annual fellowship audit, rank candidates, confirm nominations |
-| 🧾 **Audit Log** | Append-only trail of every sensitive action (logins, corrections, locks and unlocks, OTA publishes) |
+| 📚 **Courses & Curricula** | Full catalog management: draft, publish, archive |
+| 🏭 **Industry Problems** | Create, publish and archive problems with an attached brief (PDF, Word, Excel); track every solution project |
+| 🏢 **Industry GPU Requests** | Log company compute requests (GPU type, count, hours, use case) and track them: New → Under Review → Approved / Rejected → Fulfilled |
+| 🚀 **Startups · Hackathons** | Oversight of every venture and hackathon registration |
+| ⚙️ **Scoring Matrix** | Edit points per activity and level thresholds (stored as data, not hard-coded) |
+| 🏅 **Awards · Leaderboard** | Decide award requests and view rankings |
 
 </details>
+
+> 🚧 **Coming soon:** the student **GPU Supercomputing** and admin **GPU Supercluster** pages are placeholders ("under development") for now.
 
 ---
 
@@ -248,7 +246,7 @@ flowchart LR
 
     subgraph Backend["apps/api · NestJS REST API"]
         AUTH[Auth<br/>Google OAuth + JWT cookie]
-        MOD[Domain modules<br/>claims · courses · events · problems<br/>startup · gpu · hackathons · awards]
+        MOD[Domain modules<br/>claims · courses · events · problems<br/>startup · hackathons · awards · reports]
         OTA[OTA update endpoint]
     end
 
@@ -279,32 +277,35 @@ flowchart LR
 ## 📁 Project Structure
 
 ```
-ai-digital-passport/
-├── 📱 apps/
-│   ├── web/                    # Next.js 14 frontend (+ Capacitor android/ & ios/)
-│   │   ├── app/                # 60+ routes: student, /mentor/*, /admin/*, /evaluator
-│   │   ├── components/         # UI kit, app shells (Student / Console), auth, charts
-│   │   ├── lib/                # API client, departments, problem & startup stage forms
-│   │   └── public/             # Images, fonts, favicons
-│   └── api/                    # NestJS 10 REST API
-│       └── src/
-│           ├── auth/           # Google OAuth, dev login, JWT sessions
-│           ├── claims/ points/ leaderboard/ levels/
-│           ├── courses/        # Catalog, tasks, enrolments, proctoring
-│           ├── events/         # CoE classes, TOTP live QR, attendance
-│           ├── class-teaching-logs/
-│           ├── problems/ startup/ program/ external-hackathons/
-│           ├── admin/          # Dashboard, users, scoring, reports, industry GPU
-│           ├── awards/ notifications/ uploads/ whitelist/ ota/
-│           └── common/         # Guards, audit log, Redis, validation, pagination
-├── 📦 packages/
-│   ├── database/               # Prisma schema, 25+ migrations, seed & reset scripts
-│   ├── shared-types/           # Enums, level & scoring definitions, Zod schemas
-│   └── config/                 # Shared tsconfig / ESLint / Prettier
-├── 🐳 infra/docker-compose.yml # PostgreSQL 16 + Redis 7
-├── 🛠️ scripts/                 # env sync, OTA publish, favicon generator
-├── ⚙️ .github/workflows/ci.yml # Lint + typecheck on every push / PR
-└── turbo.json · pnpm-workspace.yaml
+.
+├── 📘 README.md                    # You are here
+├── 🐳 Dockerfile                   # Production image for the API
+└── 🧩 ai-digital-passport/         # pnpm + Turborepo monorepo
+    ├── 📱 apps/
+    │   ├── web/                    # Next.js 14 frontend (+ Capacitor android/ & ios/)
+    │   │   ├── app/                # 60+ routes: student, /mentor/*, /admin/*
+    │   │   ├── components/         # UI kit, app shells (Student / Console), auth, charts
+    │   │   ├── lib/                # API client, departments, problem & startup stage forms
+    │   │   └── public/             # Images, fonts, favicons
+    │   └── api/                    # NestJS 10 REST API
+    │       └── src/
+    │           ├── auth/           # Google OAuth, dev login, JWT sessions
+    │           ├── claims/ points/ leaderboard/ levels/
+    │           ├── courses/        # Catalog, enrolments, proof review
+    │           ├── events/         # CoE classes, TOTP live QR, attendance
+    │           ├── class-teaching-logs/
+    │           ├── problems/ startup/ program/ external-hackathons/
+    │           ├── admin/          # Dashboard, users, scoring, reports, industry GPU
+    │           ├── awards/ notifications/ uploads/ whitelist/ ota/
+    │           └── common/         # Guards, audit log, Redis, validation, pagination
+    ├── 📦 packages/
+    │   ├── database/               # Prisma schema, 25+ migrations, seed & reset scripts
+    │   ├── shared-types/           # Enums, level & scoring definitions, Zod schemas
+    │   └── config/                 # Shared tsconfig / ESLint / Prettier
+    ├── 🐳 infra/docker-compose.yml # PostgreSQL 16 + Redis 7
+    ├── 🛠️ scripts/                 # env sync, OTA publish, favicon generator
+    ├── ⚙️ .github/workflows/ci.yml # Lint + typecheck on every push / PR
+    └── turbo.json · pnpm-workspace.yaml
 ```
 
 ---
@@ -315,10 +316,10 @@ About **55 PostgreSQL tables**, managed with Prisma. The main groups:
 
 | Domain | Tables |
 | --- | --- |
-| 👤 Identity | `users`, `students`, `faculty`, `admins`, `roles`, `user_roles`, `access_whitelist`, `industry_partners`, `evaluator_profiles` |
+| 👤 Identity | `users`, `students`, `faculty`, `admins`, `roles`, `user_roles`, `access_whitelist` |
 | 🏆 Gamification | `levels`, `scoring_rules`, `activity_claims`, `claim_reviews`, `claim_attachments`, `points_transactions`, `badges`, `user_badges` |
 | 🏫 Classes | `events`, `event_sessions`, `qr_tokens`, `attendance`, `class_teaching_logs` |
-| 📚 Courses | `courses`, `course_tasks`, `course_enrollments`, `course_task_completions`, `proctoring_sessions`, `proctoring_violations` |
+| 📚 Courses | `courses`, `course_tasks`, `course_enrollments` |
 | 🏭 Projects | `industry_problems`, `problem_projects`, `problem_milestones`, `startup_projects`, `startup_milestones`, `project_records` |
 | 🖥️ GPU | `gpu_requests`, `industry_gpu_requests` |
 | 🏁 Hackathons | `hackathons`, `hackathon_teams`, `hackathon_submissions`, `hackathon_evaluations`, `external_hackathons`, `external_hackathon_registrations` |
@@ -337,7 +338,10 @@ About **55 PostgreSQL tables**, managed with Prisma. The main groups:
 
 ### 1️⃣ Install and configure
 
+All commands below run from the monorepo folder:
+
 ```bash
+cd ai-digital-passport
 pnpm install                 # installs every app and package in the workspace
 cp .env.example .env         # fill in Google OAuth, SESSION_SECRET, AWS, ALLOWED_EMAIL_DOMAIN …
 pnpm env:sync                # copies root .env into apps/web, apps/api, packages/database
@@ -362,7 +366,7 @@ pnpm db:seed                 # levels, scoring, roles, awards + demo dataset
 pnpm db:reset                # ⚠️ empties every table, then re-seeds
 ```
 
-The seed adds demo students across all four years, faculty, courses, CoE classes with attendance and teaching logs, industry problems with solution projects, startups, student and industry GPU requests, claims and a consistent points ledger.
+The seed adds demo students across all four years, faculty, courses with submissions, CoE classes with attendance and teaching logs, industry problems with solution projects, startups, industry GPU requests, claims and a consistent points ledger.
 
 ### 4️⃣ Run it
 
@@ -412,7 +416,7 @@ The seed also creates named demo students and faculty (for example `arun.kumar@s
 App ID: `in.ac.sece.aidigitalpassport`. The static web export is wrapped into native Android and iOS shells.
 
 ```bash
-cd apps/web
+cd ai-digital-passport/apps/web
 pnpm cap:sync              # next build + copy into native projects
 pnpm cap:android:open      # open in Android Studio
 pnpm cap:android:build     # build debug APK
@@ -443,6 +447,20 @@ The command builds the app, zips it, computes a SHA-256 checksum, uploads the zi
 
 ---
 
+## 🐳 Docker Deployment
+
+The root `Dockerfile` builds a production image of the **API** (Node 20 Alpine, pnpm, Prisma engines). It builds `shared-types`, generates the Prisma client and compiles NestJS.
+
+```bash
+# from the repository root
+docker build -t ai-digital-passport-api .
+docker run -p 1002:1002 --env-file ai-digital-passport/.env ai-digital-passport-api
+```
+
+Before the first start, apply migrations against the production database with `pnpm --filter @ai-digital-passport/database run migrate:deploy`. The web app is a static export (`apps/web/out`), so any static host can serve it.
+
+---
+
 ## 🔐 Security
 
 - 🔑 **Google OAuth 2.0**, restricted to the college domain plus an admin-managed **email whitelist**
@@ -451,7 +469,7 @@ The command builds the app, zips it, computes a SHA-256 checksum, uploads the zi
 - ♻️ **Idempotent points awarding** through unique ledger keys
 - 🛡️ **Helmet** security headers, **rate limiting** and **Zod** validation on every input
 - 📁 Upload allow-list (PDF, images, Office, CSV) with a 15 MB limit
-- 🧾 **Append-only audit log** for corrections, role changes, proctoring locks and unlocks, and OTA publishes
+- 🧾 **Audit log** of sensitive backend actions (logins, approvals, corrections, OTA publishes)
 - ✅ **CI**: lint + typecheck on every push (GitHub Actions); Husky + lint-staged pre-commit hooks
 
 ---
